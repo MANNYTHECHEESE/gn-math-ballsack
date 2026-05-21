@@ -64,13 +64,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GN-Math Mirror — Unblocked Games" },
+      { title: "Google classroom" },
       {
         name: "description",
         content:
           "GN-Math Mirror — a fast, clean mirror of the GN-Math unblocked games catalog. Browse, search, and play unblocked games instantly.",
       },
-      { property: "og:title", content: "GN-Math Mirror — Unblocked Games" },
+      { property: "og:title", content: "Google classroom" },
       {
         property: "og:description",
         content: "Browse and play unblocked games from the GN-Math catalog.",
@@ -79,6 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:url", content: "https://gn-math.dev" },
       { property: "og:site_name", content: "GN-Math Mirror" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Google classroom" },
+      { name: "description", content: "Game Mirror Hub is a web platform for accessing and playing unblocked games from a curated repository." },
+      { property: "og:description", content: "Game Mirror Hub is a web platform for accessing and playing unblocked games from a curated repository." },
+      { name: "twitter:description", content: "Game Mirror Hub is a web platform for accessing and playing unblocked games from a curated repository." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1414c00f-40bb-47bb-8de3-64b777ee697a/id-preview-22db42df--c1b9123e-1bba-406d-9980-2fab86f113b5.lovable.app-1779363971897.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1414c00f-40bb-47bb-8de3-64b777ee697a/id-preview-22db42df--c1b9123e-1bba-406d-9980-2fab86f113b5.lovable.app-1779363971897.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
