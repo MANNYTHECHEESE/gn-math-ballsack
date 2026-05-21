@@ -14,6 +14,7 @@ import { Route as GamesRouteImport } from './routes/games'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlaySlugRouteImport } from './routes/play.$slug'
+import { Route as ApiPlayFileRouteImport } from './routes/api/play.$file'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -40,6 +41,11 @@ const PlaySlugRoute = PlaySlugRouteImport.update({
   path: '/play/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPlayFileRoute = ApiPlayFileRouteImport.update({
+  id: '/api/play/$file',
+  path: '/api/play/$file',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/play/$file': typeof ApiPlayFileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/play/$file': typeof ApiPlayFileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/play/$file': typeof ApiPlayFileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/games' | '/sitemap.xml' | '/play/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/games'
+    | '/sitemap.xml'
+    | '/play/$slug'
+    | '/api/play/$file'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/games' | '/sitemap.xml' | '/play/$slug'
-  id: '__root__' | '/' | '/about' | '/games' | '/sitemap.xml' | '/play/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/games'
+    | '/sitemap.xml'
+    | '/play/$slug'
+    | '/api/play/$file'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/games'
+    | '/sitemap.xml'
+    | '/play/$slug'
+    | '/api/play/$file'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   GamesRoute: typeof GamesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PlaySlugRoute: typeof PlaySlugRoute
+  ApiPlayFileRoute: typeof ApiPlayFileRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/play/$file': {
+      id: '/api/play/$file'
+      path: '/api/play/$file'
+      fullPath: '/api/play/$file'
+      preLoaderRoute: typeof ApiPlayFileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   GamesRoute: GamesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PlaySlugRoute: PlaySlugRoute,
+  ApiPlayFileRoute: ApiPlayFileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
