@@ -14,7 +14,12 @@ const COVER_BASE = "https://cdn.jsdelivr.net/gh/freebuisness/covers@main";
 const HTML_BASE = "https://cdn.jsdelivr.net/gh/freebuisness/html@main";
 
 const cover = (id: string | number) => `${COVER_BASE}/${id}.png`;
-const html = (file: string) => `${HTML_BASE}/${file}.html`;
+// Proxied through our own server route so the response carries
+// `content-type: text/html` (jsdelivr serves raw files as text/plain
+// with nosniff, which causes iframes to render the source as text).
+const html = (file: string) => `/api/play/${file}.html`;
+// Keep the original CDN URL accessible for the "Open source" link.
+export const sourceUrl = (file: string) => `${HTML_BASE}/${file}.html`;
 
 export const games: Game[] = [
   { slug: "ovo", title: "OvO", category: "Arcade", cover: cover(1), url: html("1-fde"), featured: true, tags: ["platformer", "parkour"] },
