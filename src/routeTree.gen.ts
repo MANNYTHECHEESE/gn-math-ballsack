@@ -14,6 +14,7 @@ import { Route as GamesRouteImport } from './routes/games'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlaySlugRouteImport } from './routes/play.$slug'
+import { Route as ApiWpSlugRouteImport } from './routes/api/wp.$slug'
 import { Route as ApiPlayFileRouteImport } from './routes/api/play.$file'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -41,6 +42,11 @@ const PlaySlugRoute = PlaySlugRouteImport.update({
   path: '/play/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWpSlugRoute = ApiWpSlugRouteImport.update({
+  id: '/api/wp/$slug',
+  path: '/api/wp/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPlayFileRoute = ApiPlayFileRouteImport.update({
   id: '/api/play/$file',
   path: '/api/play/$file',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
+  '/api/wp/$slug': typeof ApiWpSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
+  '/api/wp/$slug': typeof ApiWpSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
+  '/api/wp/$slug': typeof ApiWpSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/play/$slug'
     | '/api/play/$file'
+    | '/api/wp/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/play/$slug'
     | '/api/play/$file'
+    | '/api/wp/$slug'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/play/$slug'
     | '/api/play/$file'
+    | '/api/wp/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PlaySlugRoute: typeof PlaySlugRoute
   ApiPlayFileRoute: typeof ApiPlayFileRoute
+  ApiWpSlugRoute: typeof ApiWpSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/wp/$slug': {
+      id: '/api/wp/$slug'
+      path: '/api/wp/$slug'
+      fullPath: '/api/wp/$slug'
+      preLoaderRoute: typeof ApiWpSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/play/$file': {
       id: '/api/play/$file'
       path: '/api/play/$file'
@@ -162,7 +182,18 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PlaySlugRoute: PlaySlugRoute,
   ApiPlayFileRoute: ApiPlayFileRoute,
+  ApiWpSlugRoute: ApiWpSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
