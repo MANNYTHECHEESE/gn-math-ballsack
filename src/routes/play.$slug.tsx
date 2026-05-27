@@ -47,9 +47,10 @@ export const Route = createFileRoute("/play/$slug")({
 function PlayPage() {
   const { game } = Route.useLoaderData();
   const [launched, setLaunched] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
 
-  const related = games.filter((g) => g.category === game.category && g.slug !== game.slug).slice(0, 6);
+  const related = games
+    .filter((g) => g.category === game.category && g.slug !== game.slug)
+    .slice(0, 6);
 
   return (
     <div className="min-h-screen">
@@ -73,56 +74,47 @@ function PlayPage() {
             )}
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={() => setFullscreen((f) => !f)}
-              className="rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium uppercase tracking-wider hover:border-neon hover:text-neon"
-            >
-              {fullscreen ? "Exit fullscreen" : "Fullscreen"}
-            </button>
             <a
               href={game.url}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium uppercase tracking-wider hover:border-neon hover:text-neon"
+              className="rounded-md border border-neon bg-neon px-3 py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:opacity-90"
             >
-              Open source ↗
+              Open in new tab ↗
             </a>
+            {game.source && (
+              <a
+                href={game.source}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-md border border-border bg-surface-2 px-3 py-2 text-xs font-medium uppercase tracking-wider hover:border-neon hover:text-neon"
+              >
+                Source ↗
+              </a>
+            )}
           </div>
         </div>
 
-        <div
-          className={
-            fullscreen
-              ? "fixed inset-0 z-50 bg-background"
-              : "relative overflow-hidden rounded-xl border border-border bg-surface shadow-glow"
-          }
-        >
-          {fullscreen && (
-            <button
-              onClick={() => setFullscreen(false)}
-              className="absolute right-4 top-4 z-10 rounded-md bg-neon px-3 py-1.5 text-xs font-bold uppercase text-primary-foreground"
-            >
-              Close
-            </button>
-          )}
+        <div className="relative overflow-hidden rounded-xl border border-border bg-surface shadow-glow">
           {launched ? (
             <iframe
               src={game.url}
               title={game.title}
-              className={fullscreen ? "h-full w-full" : "aspect-video w-full"}
+              className="aspect-video w-full"
               allow="autoplay; fullscreen; gamepad; pointer-lock"
               allowFullScreen
               referrerPolicy="no-referrer"
             />
           ) : (
             <div
-              className={`relative grid place-items-center ${
-                fullscreen ? "h-full w-full" : "aspect-video w-full"
-              }`}
+              className="relative grid aspect-video w-full place-items-center"
               style={{
-                backgroundImage: `linear-gradient(180deg, transparent, oklch(0.18 0.04 165 / 0.8)), url(${game.cover})`,
+                backgroundImage: game.cover
+                  ? `linear-gradient(180deg, transparent, oklch(0.18 0.04 165 / 0.8)), url(${game.cover})`
+                  : undefined,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
+                backgroundColor: "oklch(0.18 0.04 165)",
               }}
             >
               <button
@@ -140,7 +132,15 @@ function PlayPage() {
           )}
         </div>
 
-        {!fullscreen && related.length > 0 && (
+        <p className="mt-3 text-xs text-muted-foreground">
+          Tip: if the game runs poorly in the embed, use{" "}
+          <a href={game.url} target="_blank" rel="noreferrer" className="text-neon hover:underline">
+            Open in new tab
+          </a>{" "}
+          for full performance.
+        </p>
+
+        {related.length > 0 && (
           <section className="mt-12">
             <h2 className="mb-4 font-display text-2xl font-bold">More {game.category}</h2>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -151,7 +151,7 @@ function PlayPage() {
           </section>
         )}
       </div>
-      {!fullscreen && <Footer />}
+      <Footer />
     </div>
   );
 }
