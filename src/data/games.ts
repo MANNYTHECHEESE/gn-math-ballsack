@@ -147,86 +147,20 @@ const seeds: GameSeed[] = [
   { slug: "pvz", title: "Plants vs. Zombies GOTY", category: "Arcade", featured: true, source: { kind: "wpo", repo: "pvz" } },
   { slug: "needy-streamer-overload", title: "Needy Streamer Overload", category: "Adventure", source: { kind: "wpo", repo: "needy-streamer-overload" } },
 
-  // ===== Emulators (EmulatorJS) — public homebrew / shareware ROMs =====
-  // Note: pointed at known-public ROM URLs. Swap rom URLs to your own host
-  // if any 404s show up.
-  {
-    slug: "emu-nes-alter-ego",
-    title: "Alter Ego (NES)",
-    category: "Emulator",
-    tags: ["NES", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "nes",
-      rom: "https://demo.emulatorjs.org/roms/nes/Alter_Ego.nes",
-    },
-  },
-  {
-    slug: "emu-nes-lj65",
-    title: "LJ65 (NES Tetris)",
-    category: "Emulator",
-    tags: ["NES", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "nes",
-      rom: "https://demo.emulatorjs.org/roms/nes/lj65.nes",
-    },
-  },
-  {
-    slug: "emu-snes-uwol",
-    title: "Uwol: Quest for Money (SNES)",
-    category: "Emulator",
-    tags: ["SNES", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "snes",
-      rom: "https://demo.emulatorjs.org/roms/snes/uwol.smc",
-    },
-  },
-  {
-    slug: "emu-gba-anguna",
-    title: "Anguna (GBA)",
-    category: "Emulator",
-    tags: ["GBA", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "gba",
-      rom: "https://demo.emulatorjs.org/roms/gba/anguna.gba",
-    },
-  },
-  {
-    slug: "emu-gb-tobu",
-    title: "Tobu Tobu Girl (Game Boy)",
-    category: "Emulator",
-    tags: ["GB", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "gb",
-      rom: "https://demo.emulatorjs.org/roms/gb/tobutobugirl.gb",
-    },
-  },
-  {
-    slug: "emu-segams-fish",
-    title: "Fish! (Master System)",
-    category: "Emulator",
-    tags: ["SMS", "homebrew"],
-    source: {
-      kind: "emu",
-      core: "segaMS",
-      rom: "https://demo.emulatorjs.org/roms/segaMS/Fish.sms",
-    },
-  },
-  {
-    slug: "emu-segacd-bsg",
-    title: "Sega Genesis Classics Sampler",
-    category: "Emulator",
-    tags: ["Genesis"],
-    source: {
-      kind: "emu",
-      core: "segaMD",
-      rom: "https://demo.emulatorjs.org/roms/segaMD/CrazyGolf.bin",
-    },
-  },
+  // ===== Emulator ports (EmulatorJS, via genizy/emujs) =====
+  { slug: "emu-aceattorney", title: "Phoenix Wright: Ace Attorney", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "aceattorney" } },
+  { slug: "emu-justiceforall", title: "Ace Attorney: Justice for All", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "justiceforall" } },
+  { slug: "emu-trialsandtribulations", title: "Ace Attorney: Trials & Tribulations", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "trialsandtribulations" } },
+  { slug: "emu-apollojustice", title: "Apollo Justice: Ace Attorney", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "apollojustice" } },
+  { slug: "emu-milesedgeworth", title: "Ace Attorney Investigations: Miles Edgeworth", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "milesedgeworth" } },
+  { slug: "emu-rhythm-heaven", title: "Rhythm Heaven", category: "Emulator", tags: ["GBA"], source: { kind: "emujs", page: "rhythm-heaven" }, featured: true },
+  { slug: "emu-warioware-touched", title: "WarioWare: Touched!", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "warioware-touched" } },
+  { slug: "emu-tomodachi-collection", title: "Tomodachi Collection", category: "Emulator", tags: ["NDS"], source: { kind: "emujs", page: "tomodachi-collection" } },
+  { slug: "emu-vib-ribbon", title: "Vib-Ribbon", category: "Emulator", tags: ["PSX"], source: { kind: "emujs", page: "vib-ribbon" } },
+  { slug: "emu-nfsmostwanted", title: "Need for Speed: Most Wanted", category: "Emulator", tags: ["PSP"], featured: true, source: { kind: "emujs", page: "nfsmostwanted" } },
+  { slug: "emu-nfscarbon", title: "Need for Speed: Carbon", category: "Emulator", tags: ["PSP"], source: { kind: "emujs", page: "nfscarbon" } },
+  { slug: "emu-nfsunderground2", title: "Need for Speed: Underground 2", category: "Emulator", tags: ["PSP"], source: { kind: "emujs", page: "nfsunderground2" } },
+  { slug: "emu-san-andreas", title: "GTA: San Andreas", category: "Emulator", tags: ["PSP"], featured: true, source: { kind: "emujs", page: "san-andreas" } },
 ];
 
 function buildUrl(s: Source, name: string): string {
