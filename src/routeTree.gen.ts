@@ -14,8 +14,10 @@ import { Route as GamesRouteImport } from './routes/games'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlaySlugRouteImport } from './routes/play.$slug'
+import { Route as ApiWpoSlugRouteImport } from './routes/api/wpo.$slug'
 import { Route as ApiWpSlugRouteImport } from './routes/api/wp.$slug'
 import { Route as ApiPlayFileRouteImport } from './routes/api/play.$file'
+import { Route as ApiEmuSlugRouteImport } from './routes/api/emu.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -42,6 +44,11 @@ const PlaySlugRoute = PlaySlugRouteImport.update({
   path: '/play/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiWpoSlugRoute = ApiWpoSlugRouteImport.update({
+  id: '/api/wpo/$slug',
+  path: '/api/wpo/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiWpSlugRoute = ApiWpSlugRouteImport.update({
   id: '/api/wp/$slug',
   path: '/api/wp/$slug',
@@ -52,6 +59,11 @@ const ApiPlayFileRoute = ApiPlayFileRouteImport.update({
   path: '/api/play/$file',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiEmuSlugRoute = ApiEmuSlugRouteImport.update({
+  id: '/api/emu/$slug',
+  path: '/api/emu/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,8 +71,10 @@ export interface FileRoutesByFullPath {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/emu/$slug': typeof ApiEmuSlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
   '/api/wp/$slug': typeof ApiWpSlugRoute
+  '/api/wpo/$slug': typeof ApiWpoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,8 +82,10 @@ export interface FileRoutesByTo {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/emu/$slug': typeof ApiEmuSlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
   '/api/wp/$slug': typeof ApiWpSlugRoute
+  '/api/wpo/$slug': typeof ApiWpoSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +94,10 @@ export interface FileRoutesById {
   '/games': typeof GamesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/play/$slug': typeof PlaySlugRoute
+  '/api/emu/$slug': typeof ApiEmuSlugRoute
   '/api/play/$file': typeof ApiPlayFileRoute
   '/api/wp/$slug': typeof ApiWpSlugRoute
+  '/api/wpo/$slug': typeof ApiWpoSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,8 +107,10 @@ export interface FileRouteTypes {
     | '/games'
     | '/sitemap.xml'
     | '/play/$slug'
+    | '/api/emu/$slug'
     | '/api/play/$file'
     | '/api/wp/$slug'
+    | '/api/wpo/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -98,8 +118,10 @@ export interface FileRouteTypes {
     | '/games'
     | '/sitemap.xml'
     | '/play/$slug'
+    | '/api/emu/$slug'
     | '/api/play/$file'
     | '/api/wp/$slug'
+    | '/api/wpo/$slug'
   id:
     | '__root__'
     | '/'
@@ -107,8 +129,10 @@ export interface FileRouteTypes {
     | '/games'
     | '/sitemap.xml'
     | '/play/$slug'
+    | '/api/emu/$slug'
     | '/api/play/$file'
     | '/api/wp/$slug'
+    | '/api/wpo/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,8 +141,10 @@ export interface RootRouteChildren {
   GamesRoute: typeof GamesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PlaySlugRoute: typeof PlaySlugRoute
+  ApiEmuSlugRoute: typeof ApiEmuSlugRoute
   ApiPlayFileRoute: typeof ApiPlayFileRoute
   ApiWpSlugRoute: typeof ApiWpSlugRoute
+  ApiWpoSlugRoute: typeof ApiWpoSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -158,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/wpo/$slug': {
+      id: '/api/wpo/$slug'
+      path: '/api/wpo/$slug'
+      fullPath: '/api/wpo/$slug'
+      preLoaderRoute: typeof ApiWpoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/wp/$slug': {
       id: '/api/wp/$slug'
       path: '/api/wp/$slug'
@@ -172,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlayFileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/emu/$slug': {
+      id: '/api/emu/$slug'
+      path: '/api/emu/$slug'
+      fullPath: '/api/emu/$slug'
+      preLoaderRoute: typeof ApiEmuSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -181,8 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   GamesRoute: GamesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PlaySlugRoute: PlaySlugRoute,
+  ApiEmuSlugRoute: ApiEmuSlugRoute,
   ApiPlayFileRoute: ApiPlayFileRoute,
   ApiWpSlugRoute: ApiWpSlugRoute,
+  ApiWpoSlugRoute: ApiWpoSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
