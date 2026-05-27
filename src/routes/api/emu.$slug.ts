@@ -1,61 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// EmulatorJS launcher. Reads ?core=...&rom=...&name=... and returns a
-// fully-configured HTML page that boots the EmulatorJS player. Cores are
-// loaded from the official EmulatorJS CDN.
-//
-// Example: /api/emu/anything?core=nes&rom=https://example.com/game.nes&name=Game
+// Proxy a game's <slug>.html from genizy/emujs via jsDelivr. Those pages
+// already wire up EmulatorJS with bundled ROMs in the same repo.
 export const Route = createFileRoute("/api/emu/$slug")({
   server: {
     handlers: {
-      GET: async ({ request }) => {
-        const url = new URL(request.url);
-        const core = url.searchParams.get("core") || "nes";
-        const rom = url.searchParams.get("rom") || "";
-        const name = url.searchParams.get("name") || "Game";
-        const bios = url.searchParams.get("bios") || "";
-
-        if (!/^[a-z0-9_]+$/.test(core)) {
-          return new Response("Bad core", { status: 400 });
+      GET: async ({ params }) => {
+        const slug = params.slug.replace(/\.html$/, "");
+        if (!/^[a-zA-Z0-9._-]+$/.test(slug)) {
+          return new Response("Bad request", { status: 400 });
         }
-        if (!rom || !/^https?:\/\//.test(rom)) {
-          return new Response("Missing rom URL", { status: 400 });
+        const base = `https://cdn.jsdelivr.net/gh/genizy/emujs@main/`;
+        const res = await fetch(`${base}${slug}.html`);
+        if (!res.ok) return new Response("Not found", { status: res.status });
+        let body = await res.text();
+        const baseTag = `<base href="${base}">`;
+        if (/<head[^>]*>/i.test(body)) {
+          body = body.replace(/<head[^>]*>/i, (m) => `${m}\n${baseTag}`);
+        } else {
+          body = `${baseTag}\n${body}`;
         }
-
-        const esc = (s: string) =>
-          s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
-
-        const html = `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<title>${esc(name)}</title>
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<style>
-  html,body{margin:0;padding:0;background:#000;height:100%;overflow:hidden;font-family:system-ui,sans-serif;color:#fff}
-  #game{position:fixed;inset:0}
-</style>
-</head>
-<body>
-<div id="game"></div>
-<script>
-  window.EJS_player = "#game";
-  window.EJS_core = ${JSON.stringify(core)};
-  window.EJS_gameName = ${JSON.stringify(name)};
-  window.EJS_gameUrl = ${JSON.stringify(rom)};
-  ${bios ? `window.EJS_biosUrl = ${JSON.stringify(bios)};` : ""}
-  window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-  window.EJS_startOnLoaded = true;
-</script>
-<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
-</body>
-</html>`;
-
-        return new Response(html, {
+        return new Response(body, {
           status: 200,
           headers: {
             "content-type": "text/html; charset=utf-8",
-            "cache-control": "public, max-age=3600",
+            "cache-control": "public, max-age=86400",
           },
         });
       },
