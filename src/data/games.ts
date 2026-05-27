@@ -30,13 +30,7 @@ const WPO = (slug: string) => `https://cdn.jsdelivr.net/gh/web-ports/${slug}@mai
 type Source =
   | { kind: "genizy"; folder: string; coverFile?: string }
   | { kind: "wpo"; repo: string; coverFile?: string }
-  | {
-      kind: "emu";
-      core: string;
-      rom: string;
-      bios?: string;
-      cover?: string;
-    };
+  | { kind: "emujs"; page: string; cover?: string };
 
 type GameSeed = {
   slug: string;
