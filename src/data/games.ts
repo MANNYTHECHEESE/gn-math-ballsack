@@ -163,10 +163,6 @@ const seeds: GameSeed[] = [
   // ===== Standalone GitHub ports =====
   { slug: "undertale", title: "Undertale", category: "Adventure", featured: true, source: { kind: "gh", owner: "pbk123461", repo: "Undertale-web-port", coverFile: "favicon.png" } },
   { slug: "deltarune", title: "Deltarune", category: "Adventure", featured: true, source: { kind: "gh", owner: "technonyte00", repo: "deltarune" } },
-  { slug: "deltarune-ch1", title: "Deltarune — Chapter 1", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter1" } },
-  { slug: "deltarune-ch2", title: "Deltarune — Chapter 2", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter2" } },
-  { slug: "deltarune-ch3", title: "Deltarune — Chapter 3", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter3" } },
-  { slug: "deltarune-ch4", title: "Deltarune — Chapter 4", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter4" } },
 ];
 
 function buildUrl(s: Source, _name: string): string {
