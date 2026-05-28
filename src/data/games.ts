@@ -163,7 +163,8 @@ const seeds: GameSeed[] = [
 function buildUrl(s: Source, _name: string): string {
   if (s.kind === "genizy") return `/api/wp/${s.folder}`;
   if (s.kind === "wpo") return `/api/wpo/${s.repo}`;
-  return `/api/emu/${s.page}`;
+  if (s.kind === "emujs") return `/api/emu/${s.page}`;
+  return `/api/gh/${s.owner}/${s.repo}${s.sub ? "/" + s.sub : ""}`;
 }
 
 function buildCover(s: Source): string | undefined {
@@ -172,13 +173,16 @@ function buildCover(s: Source): string | undefined {
   if (s.kind === "wpo" && s.coverFile)
     return `${WPO(s.repo)}/${encodeURIComponent(s.coverFile)}`;
   if (s.kind === "emujs") return s.cover;
+  if (s.kind === "gh" && s.coverFile)
+    return `${GH(s.owner, s.repo, s.sub)}/${encodeURIComponent(s.coverFile)}`;
   return undefined;
 }
 
 function buildSource(s: Source): string {
   if (s.kind === "genizy") return `https://github.com/genizy/web-port/tree/main/${s.folder}`;
   if (s.kind === "wpo") return `https://github.com/web-ports/${s.repo}`;
-  return `https://github.com/genizy/emujs/blob/main/${s.page}.html`;
+  if (s.kind === "emujs") return `https://github.com/genizy/emujs/blob/main/${s.page}.html`;
+  return `https://github.com/${s.owner}/${s.repo}${s.sub ? "/tree/main/" + s.sub : ""}`;
 }
 
 export const games: Game[] = seeds.map((s) => ({
