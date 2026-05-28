@@ -33,7 +33,8 @@ type Source =
   | { kind: "genizy"; folder: string; coverFile?: string }
   | { kind: "wpo"; repo: string; coverFile?: string }
   | { kind: "emujs"; page: string; cover?: string }
-  | { kind: "gh"; owner: string; repo: string; sub?: string; coverFile?: string };
+  | { kind: "gh"; owner: string; repo: string; sub?: string; coverFile?: string }
+  | { kind: "external"; url: string; cover?: string; sourceUrl?: string };
 
 type GameSeed = {
   slug: string;
