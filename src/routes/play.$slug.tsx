@@ -107,7 +107,7 @@ function PlayPage() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl border border-border bg-surface shadow-glow">
+        <div className={`relative overflow-hidden rounded-xl border border-border shadow-glow ${game.slug === "unblocker" ? "bg-white" : "bg-surface"}`}>
           {launched ? (
             <iframe
               src={game.url}
