@@ -74,14 +74,13 @@ function PlayPage() {
             )}
           </div>
           <div className="flex gap-2">
-            <a
-              href={game.url}
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
+              onClick={() => openInBlank(game.url, game.title)}
               className="rounded-md border border-neon bg-neon px-3 py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:opacity-90"
             >
               Open in new tab ↗
-            </a>
+            </button>
             {game.source && (
               <a
                 href={game.source}
