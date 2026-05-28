@@ -152,6 +152,7 @@ function PlayPage() {
             className="text-neon hover:underline"
           >
             Open in new tab
+          </button>{" "}
           for full performance.
         </p>
 
