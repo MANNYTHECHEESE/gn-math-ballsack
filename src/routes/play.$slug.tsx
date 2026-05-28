@@ -44,6 +44,19 @@ export const Route = createFileRoute("/play/$slug")({
   ),
 });
 
+function openInBlank(url: string, title: string) {
+  const win = window.open("about:blank", "_blank");
+  if (!win) {
+    window.open(url, "_blank");
+    return;
+  }
+  const abs = new URL(url, window.location.origin).toString();
+  const safeTitle = title.replace(/[<>&"]/g, "");
+  win.document.open();
+  win.document.write(`<!doctype html><html><head><title>${safeTitle}</title><meta name="referrer" content="no-referrer"><style>html,body{margin:0;height:100%;background:#000;overflow:hidden}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe src="${abs}" allow="autoplay; fullscreen; gamepad; pointer-lock" allowfullscreen></iframe></body></html>`);
+  win.document.close();
+}
+
 function PlayPage() {
   const { game } = Route.useLoaderData();
   const [launched, setLaunched] = useState(false);
@@ -74,14 +87,13 @@ function PlayPage() {
             )}
           </div>
           <div className="flex gap-2">
-            <a
-              href={game.url}
-              target="_blank"
-              rel="noreferrer"
+            <button
+              type="button"
+              onClick={() => openInBlank(game.url, game.title)}
               className="rounded-md border border-neon bg-neon px-3 py-2 text-xs font-bold uppercase tracking-wider text-primary-foreground hover:opacity-90"
             >
               Open in new tab ↗
-            </a>
+            </button>
             {game.source && (
               <a
                 href={game.source}
@@ -134,9 +146,13 @@ function PlayPage() {
 
         <p className="mt-3 text-xs text-muted-foreground">
           Tip: if the game runs poorly in the embed, use{" "}
-          <a href={game.url} target="_blank" rel="noreferrer" className="text-neon hover:underline">
+          <button
+            type="button"
+            onClick={() => openInBlank(game.url, game.title)}
+            className="text-neon hover:underline"
+          >
             Open in new tab
-          </a>{" "}
+          </button>{" "}
           for full performance.
         </p>
 

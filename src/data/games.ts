@@ -26,11 +26,14 @@ export type Game = {
 
 const GENIZY = "https://cdn.jsdelivr.net/gh/genizy/web-port@main";
 const WPO = (slug: string) => `https://cdn.jsdelivr.net/gh/web-ports/${slug}@main`;
+const GH = (owner: string, repo: string, sub?: string) =>
+  `https://cdn.jsdelivr.net/gh/${owner}/${repo}@main${sub ? "/" + sub : ""}`;
 
 type Source =
   | { kind: "genizy"; folder: string; coverFile?: string }
   | { kind: "wpo"; repo: string; coverFile?: string }
-  | { kind: "emujs"; page: string; cover?: string };
+  | { kind: "emujs"; page: string; cover?: string }
+  | { kind: "gh"; owner: string; repo: string; sub?: string; coverFile?: string };
 
 type GameSeed = {
   slug: string;
@@ -155,12 +158,22 @@ const seeds: GameSeed[] = [
   { slug: "emu-nfscarbon", title: "Need for Speed: Carbon", category: "Emulator", tags: ["PSP"], source: { kind: "emujs", page: "nfscarbon" } },
   { slug: "emu-nfsunderground2", title: "Need for Speed: Underground 2", category: "Emulator", tags: ["PSP"], source: { kind: "emujs", page: "nfsunderground2" } },
   { slug: "emu-san-andreas", title: "GTA: San Andreas", category: "Emulator", tags: ["PSP"], featured: true, source: { kind: "emujs", page: "san-andreas" } },
+  { slug: "emu-san-andreas", title: "GTA: San Andreas", category: "Emulator", tags: ["PSP"], featured: true, source: { kind: "emujs", page: "san-andreas" } },
+
+  // ===== Standalone GitHub ports =====
+  { slug: "undertale", title: "Undertale", category: "Adventure", featured: true, source: { kind: "gh", owner: "pbk123461", repo: "Undertale-web-port", coverFile: "favicon.png" } },
+  { slug: "deltarune", title: "Deltarune", category: "Adventure", featured: true, source: { kind: "gh", owner: "technonyte00", repo: "deltarune" } },
+  { slug: "deltarune-ch1", title: "Deltarune — Chapter 1", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter1" } },
+  { slug: "deltarune-ch2", title: "Deltarune — Chapter 2", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter2" } },
+  { slug: "deltarune-ch3", title: "Deltarune — Chapter 3", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter3" } },
+  { slug: "deltarune-ch4", title: "Deltarune — Chapter 4", category: "Adventure", source: { kind: "gh", owner: "technonyte00", repo: "deltarune", sub: "chapter4" } },
 ];
 
 function buildUrl(s: Source, _name: string): string {
   if (s.kind === "genizy") return `/api/wp/${s.folder}`;
   if (s.kind === "wpo") return `/api/wpo/${s.repo}`;
-  return `/api/emu/${s.page}`;
+  if (s.kind === "emujs") return `/api/emu/${s.page}`;
+  return `/api/gh/${s.owner}/${s.repo}${s.sub ? "/" + s.sub : ""}`;
 }
 
 function buildCover(s: Source): string | undefined {
@@ -169,13 +182,16 @@ function buildCover(s: Source): string | undefined {
   if (s.kind === "wpo" && s.coverFile)
     return `${WPO(s.repo)}/${encodeURIComponent(s.coverFile)}`;
   if (s.kind === "emujs") return s.cover;
+  if (s.kind === "gh" && s.coverFile)
+    return `${GH(s.owner, s.repo, s.sub)}/${encodeURIComponent(s.coverFile)}`;
   return undefined;
 }
 
 function buildSource(s: Source): string {
   if (s.kind === "genizy") return `https://github.com/genizy/web-port/tree/main/${s.folder}`;
   if (s.kind === "wpo") return `https://github.com/web-ports/${s.repo}`;
-  return `https://github.com/genizy/emujs/blob/main/${s.page}.html`;
+  if (s.kind === "emujs") return `https://github.com/genizy/emujs/blob/main/${s.page}.html`;
+  return `https://github.com/${s.owner}/${s.repo}${s.sub ? "/tree/main/" + s.sub : ""}`;
 }
 
 export const games: Game[] = seeds.map((s) => ({
