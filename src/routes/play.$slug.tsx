@@ -44,6 +44,19 @@ export const Route = createFileRoute("/play/$slug")({
   ),
 });
 
+function openInBlank(url: string, title: string) {
+  const win = window.open("about:blank", "_blank");
+  if (!win) {
+    window.open(url, "_blank");
+    return;
+  }
+  const abs = new URL(url, window.location.origin).toString();
+  const safeTitle = title.replace(/[<>&"]/g, "");
+  win.document.open();
+  win.document.write(`<!doctype html><html><head><title>${safeTitle}</title><meta name="referrer" content="no-referrer"><style>html,body{margin:0;height:100%;background:#000;overflow:hidden}iframe{border:0;width:100%;height:100%;display:block}</style></head><body><iframe src="${abs}" allow="autoplay; fullscreen; gamepad; pointer-lock" allowfullscreen></iframe></body></html>`);
+  win.document.close();
+}
+
 function PlayPage() {
   const { game } = Route.useLoaderData();
   const [launched, setLaunched] = useState(false);
