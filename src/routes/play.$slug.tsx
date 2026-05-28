@@ -146,9 +146,12 @@ function PlayPage() {
 
         <p className="mt-3 text-xs text-muted-foreground">
           Tip: if the game runs poorly in the embed, use{" "}
-          <a href={game.url} target="_blank" rel="noreferrer" className="text-neon hover:underline">
+          <button
+            type="button"
+            onClick={() => openInBlank(game.url, game.title)}
+            className="text-neon hover:underline"
+          >
             Open in new tab
-          </a>{" "}
           for full performance.
         </p>
 
