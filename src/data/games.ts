@@ -26,11 +26,14 @@ export type Game = {
 
 const GENIZY = "https://cdn.jsdelivr.net/gh/genizy/web-port@main";
 const WPO = (slug: string) => `https://cdn.jsdelivr.net/gh/web-ports/${slug}@main`;
+const GH = (owner: string, repo: string, sub?: string) =>
+  `https://cdn.jsdelivr.net/gh/${owner}/${repo}@main${sub ? "/" + sub : ""}`;
 
 type Source =
   | { kind: "genizy"; folder: string; coverFile?: string }
   | { kind: "wpo"; repo: string; coverFile?: string }
-  | { kind: "emujs"; page: string; cover?: string };
+  | { kind: "emujs"; page: string; cover?: string }
+  | { kind: "gh"; owner: string; repo: string; sub?: string; coverFile?: string };
 
 type GameSeed = {
   slug: string;
