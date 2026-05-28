@@ -164,13 +164,17 @@ const seeds: GameSeed[] = [
   // ===== Standalone GitHub ports =====
   { slug: "undertale", title: "Undertale", category: "Adventure", featured: true, source: { kind: "gh", owner: "pbk123461", repo: "Undertale-web-port", coverFile: "favicon.png" } },
   { slug: "deltarune", title: "Deltarune", category: "Adventure", featured: true, source: { kind: "gh", owner: "technonyte00", repo: "deltarune" } },
+
+  // ===== Tools =====
+  { slug: "unblocker", title: "Unblocker", category: "Tool", source: { kind: "external", url: "https://atharvseduhub.networkguru.com/", sourceUrl: "https://atharvseduhub.networkguru.com/" } },
 ];
 
 function buildUrl(s: Source, _name: string): string {
   if (s.kind === "genizy") return `/api/wp/${s.folder}`;
   if (s.kind === "wpo") return `/api/wpo/${s.repo}`;
   if (s.kind === "emujs") return `/api/emu/${s.page}`;
-  return `/api/gh/${s.owner}/${s.repo}${s.sub ? "/" + s.sub : ""}`;
+  if (s.kind === "gh") return `/api/gh/${s.owner}/${s.repo}${s.sub ? "/" + s.sub : ""}`;
+  return s.url;
 }
 
 function buildCover(s: Source): string | undefined {
@@ -181,6 +185,7 @@ function buildCover(s: Source): string | undefined {
   if (s.kind === "emujs") return s.cover;
   if (s.kind === "gh" && s.coverFile)
     return `${GH(s.owner, s.repo, s.sub)}/${encodeURIComponent(s.coverFile)}`;
+  if (s.kind === "external") return s.cover;
   return undefined;
 }
 
@@ -188,7 +193,8 @@ function buildSource(s: Source): string {
   if (s.kind === "genizy") return `https://github.com/genizy/web-port/tree/main/${s.folder}`;
   if (s.kind === "wpo") return `https://github.com/web-ports/${s.repo}`;
   if (s.kind === "emujs") return `https://github.com/genizy/emujs/blob/main/${s.page}.html`;
-  return `https://github.com/${s.owner}/${s.repo}${s.sub ? "/tree/main/" + s.sub : ""}`;
+  if (s.kind === "gh") return `https://github.com/${s.owner}/${s.repo}${s.sub ? "/tree/main/" + s.sub : ""}`;
+  return s.sourceUrl ?? s.url;
 }
 
 export const games: Game[] = seeds.map((s) => ({
